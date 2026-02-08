@@ -64,6 +64,19 @@ export default defineConfig(({ mode }) => {
           mode: 'development',
           globPatterns: ['**/*.{js,css,html,svg,png,ico,mp3,ogg,wav,json}'],
           globIgnores: ['**/icons/icon-192.*', '**/icons/icon-512.*'],
+          manifestTransforms: [
+            async (manifestEntries) => {
+              const seen = new Set<string>();
+              const manifest = manifestEntries.filter((entry) => {
+                if (seen.has(entry.url)) {
+                  return false;
+                }
+                seen.add(entry.url);
+                return true;
+              });
+              return { manifest, warnings: [] };
+            }
+          ],
           runtimeCaching: [
             {
               urlPattern: ({ request }) => request.destination === 'audio',
