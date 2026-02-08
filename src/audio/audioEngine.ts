@@ -1,6 +1,7 @@
 export type SirenMode = 'auto' | 'classic' | 'wail' | 'hilo' | 'pulse';
 
 const MAX_SIREN_LEVEL = 0.375;
+const MAX_MASTER_LEVEL = 0.5;
 const RANDOM_SIREN_MODES: Exclude<SirenMode, 'auto'>[] = ['classic', 'wail', 'hilo', 'pulse'];
 
 export class AudioEngine {
@@ -280,7 +281,7 @@ export class AudioEngine {
     }
 
     const now = this.context.currentTime;
-    const target = this.enabled && !this.paused ? this.masterVolume : 0;
+    const target = this.enabled && !this.paused ? this.masterVolume * MAX_MASTER_LEVEL : 0;
     this.masterGain.gain.setTargetAtTime(target, now, 0.1);
   }
 }

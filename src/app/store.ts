@@ -15,8 +15,8 @@ const defaultState: AppState = {
   intensity: 0.6,
   playing: false,
   timeScale: 1,
-  audioEnabled: false,
-  masterVolume: 0.72
+  audioEnabled: true,
+  masterVolume: 0.44
 };
 
 export class AppStore {

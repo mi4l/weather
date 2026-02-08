@@ -75,51 +75,16 @@ export class GameApp {
     this.restoreWorld(saved);
 
     this.ui = new OverlayUI(uiRoot, {
-      onModeChange: (mode) => {
-        this.store.update({ mode });
-      },
-      onToolChange: (buildTool) => {
-        this.store.update({ buildTool });
-      },
-      onWeatherModeChange: (weatherMode) => {
-        this.store.update({ weatherMode });
-      },
-      onSirenModeChange: (sirenMode) => {
-        this.store.update({ sirenMode });
-      },
-      onWeatherToggle: (key, value) => {
-        this.store.update({
-          weatherToggles: {
-            ...this.store.getState().weatherToggles,
-            [key]: value
-          }
-        });
-      },
-      onIntensityChange: (intensity) => {
-        this.store.update({ intensity });
-      },
       onPlayPause: () => {
         const nextPlaying = !this.store.getState().playing;
         this.store.update({ playing: nextPlaying });
-        if (nextPlaying && this.store.getState().audioEnabled) {
+        if (nextPlaying) {
           void this.audio.ensureReady();
         }
       },
-      onTimeScaleChange: (timeScale) => {
-        this.store.update({ timeScale });
-      },
-      onAudioToggle: () => {
-        const enabled = !this.store.getState().audioEnabled;
-        this.store.update({ audioEnabled: enabled });
-        if (enabled) {
-          void this.audio.ensureReady();
-        }
-      },
-      onVolumeChange: (masterVolume) => {
-        this.store.update({ masterVolume });
-      },
-      onReset: () => {
-        this.resetWorld();
+      onVolumeChange: (volumePercent) => {
+        const clampedPercent = Math.max(0, Math.min(100, volumePercent));
+        this.store.update({ masterVolume: clampedPercent / 100 });
       },
       onNewWorld: () => {
         this.createNewWorld();
@@ -327,17 +292,6 @@ export class GameApp {
     this.worldView.rebuildRoads();
     this.worldView.syncTrees();
     this.worldView.syncBuildings();
-    this.persistWorld();
-  }
-
-  private resetWorld(): void {
-    this.world.resetTiles();
-    this.worldView.rebuildRoads();
-    this.worldView.rebuildWater();
-    this.worldView.setDestructionPath([]);
-    this.worldView.syncTrees();
-    this.worldView.syncBuildings();
-    this.weather.reset();
     this.persistWorld();
   }
 

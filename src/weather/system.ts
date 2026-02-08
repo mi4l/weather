@@ -86,13 +86,7 @@ export class WeatherSystem {
 
     this.dayTimeHours = (this.dayTimeHours + scaledDt * GAME_HOURS_PER_SECOND) % 24;
 
-    const useAuto = state.weatherMode === 'auto';
-
-    const rainEnabled = useAuto || state.weatherToggles.rain;
-    const thunderEnabled = useAuto || state.weatherToggles.thunder;
-    const tornadoEnabled = useAuto || state.weatherToggles.tornado;
-
-    const rainIntensity = rainEnabled ? state.intensity : 0;
+    const rainIntensity = state.intensity;
 
     this.rain.update({
       centerX,
@@ -103,7 +97,7 @@ export class WeatherSystem {
       sampleGroundHeight: (x, z) => this.world.sampleHeightAtWorld(x, z)
     });
 
-    this.lightning.update(scaledDt, thunderEnabled, state.intensity, {
+    this.lightning.update(scaledDt, true, state.intensity, {
       onFlash: (duration) => {
         this.onLightningFlash(duration);
       },
@@ -112,7 +106,7 @@ export class WeatherSystem {
       }
     });
 
-    const tornadoViews = this.tornadoes.update(scaledDt, state.intensity, tornadoEnabled && useAuto, () => {
+    const tornadoViews = this.tornadoes.update(scaledDt, state.intensity, true, () => {
       this.onToast('Tornado warning!');
     });
 

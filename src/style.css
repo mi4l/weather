@@ -33,9 +33,9 @@ body,
 
 #ui-root {
   position: absolute;
-  top: 14px;
-  left: 14px;
-  width: min(360px, calc(100vw - 28px));
+  top: 8px;
+  left: 8px;
+  width: min(220px, calc(100vw - 16px));
   pointer-events: none;
 }
 
@@ -59,11 +59,23 @@ body,
   text-transform: uppercase;
 }
 
+.panel-compact {
+  padding: 8px;
+  border-radius: 12px;
+  gap: 0;
+  width: 100%;
+}
+
 .panel-row {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   align-items: center;
+}
+
+.panel-row-compact {
+  gap: 6px;
+  flex-wrap: nowrap;
 }
 
 .panel-row label {
@@ -106,6 +118,33 @@ button[data-ok='true'] {
   border-color: rgba(154, 214, 111, 0.65);
 }
 
+.icon-button {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  font-size: 1rem;
+  display: grid;
+  place-items: center;
+}
+
+.small-button {
+  padding: 5px 8px;
+  font-size: 0.78rem;
+}
+
+.volume-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.volume-wrap input[type='range'] {
+  width: 96px;
+}
+
 #toast-root {
   position: absolute;
   right: 14px;
@@ -137,21 +176,35 @@ button[data-ok='true'] {
 
 @media (max-width: 720px) {
   #ui-root {
-    width: calc(100vw - 18px);
-    left: 9px;
-    top: 9px;
+    width: min(200px, calc(100vw - 12px));
+    left: 6px;
+    top: 6px;
   }
 
   .panel {
-    padding: 10px;
+    padding: 8px;
     border-radius: 12px;
-    gap: 8px;
+    gap: 6px;
   }
 
   button,
   select,
   input[type='range'] {
-    padding: 6px 8px;
-    font-size: 0.9rem;
+    padding: 5px 7px;
+    font-size: 0.82rem;
+  }
+
+  .icon-button {
+    width: 31px;
+    height: 31px;
+  }
+
+  .small-button {
+    padding: 4px 7px;
+    font-size: 0.76rem;
+  }
+
+  .volume-wrap input[type='range'] {
+    width: 84px;
   }
 }
