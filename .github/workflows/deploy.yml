@@ -43,6 +43,15 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Verify built app shell
+        run: |
+          if grep -q '/src/main.ts' dist/index.html; then
+            echo "dist/index.html still points to /src/main.ts. Deployment would be broken." >&2
+            exit 1
+          fi
+          echo "Built index.html preview:"
+          sed -n '1,40p' dist/index.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
