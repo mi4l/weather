@@ -38,7 +38,6 @@ export default defineConfig(({ mode }) => {
       VitePWA({
         registerType: 'autoUpdate',
         minify: false,
-        includeAssets: ['icons/*.svg'],
         manifest: {
           name: 'IsoWeather Town',
           short_name: 'IsoWeather',
@@ -64,6 +63,7 @@ export default defineConfig(({ mode }) => {
         workbox: {
           mode: 'development',
           globPatterns: ['**/*.{js,css,html,svg,png,ico,mp3,ogg,wav,json}'],
+          globIgnores: ['**/icons/icon-192.*', '**/icons/icon-512.*'],
           runtimeCaching: [
             {
               urlPattern: ({ request }) => request.destination === 'audio',
